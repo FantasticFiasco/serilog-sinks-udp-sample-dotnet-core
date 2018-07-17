@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Sample.Services;
 
 namespace Sample.Controllers
 {
@@ -7,36 +8,24 @@ namespace Sample.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly ValuesService valuesService;
+
+        public ValuesController(ValuesService valuesService) =>
+            this.valuesService = valuesService;
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
+        public ActionResult<IEnumerable<string>> Get() =>
+            valuesService.GetAll();
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        public void Post([FromBody] string value) =>
+            valuesService.Add(value);
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        // DELETE api/values/foobar
+        [HttpDelete("{value}")]
+        public void Delete(string value) =>
+            valuesService.Remove(value);
     }
 }
