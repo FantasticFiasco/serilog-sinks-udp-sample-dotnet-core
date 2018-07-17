@@ -14,6 +14,7 @@ namespace Sample
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Udp(IPAddress.Loopback, 7071, new Log4jTextFormatter())
+                .WriteTo.Debug()
                 .CreateLogger();
 
             try
