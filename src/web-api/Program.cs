@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net;
+using System.Net.Sockets;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
@@ -13,7 +13,11 @@ namespace Sample
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.Udp(IPAddress.Loopback, 7071, new Log4jTextFormatter())
+                .WriteTo.Udp(
+                    "localhost",
+                    7071,
+                    AddressFamily.InterNetwork,
+                    new Log4jTextFormatter())
                 .WriteTo.Debug()
                 .CreateLogger();
 

@@ -1,4 +1,4 @@
-﻿using System.Net;
+﻿using System.Net.Sockets;
 using System.Threading;
 using Sample.Generators;
 using Serilog;
@@ -11,7 +11,11 @@ namespace Sample
         static void Main()
         {
             ILogger logger = new LoggerConfiguration()
-                .WriteTo.Udp(IPAddress.Loopback, 7071, new Log4jTextFormatter())
+                .WriteTo.Udp(
+                    "localhost",
+                    7071,
+                    AddressFamily.InterNetwork,
+                    new Log4jTextFormatter())
                 .WriteTo.Console()
                 .CreateLogger();
 
