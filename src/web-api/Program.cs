@@ -1,51 +1,23 @@
-﻿using System;
-using System.Net.Sockets;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Serilog;
+﻿using Serilog;
 using Serilog.Sinks.Udp.TextFormatters;
+using System.Net.Sockets;
 
-namespace Sample
-{
-    public class Program
-    {
-        public static int Main(string[] args)
-        {
-            Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .WriteTo.Udp(
-                    "localhost",
-                    7071,
-                    AddressFamily.InterNetwork,
-                    new Log4jTextFormatter())
-                .WriteTo.Debug()
-                .CreateLogger();
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Udp(
+        "localhost",
+        7071,
+        AddressFamily.InterNetwork,
+        new Log4jTextFormatter())
+    .WriteTo.Debug()
+    .CreateLogger();
 
-            try
-            {
-                Log.Information("Starting web host");
+var builder = WebApplication.CreateBuilder(args);
 
-                CreateWebHostBuilder(args)
-                    .Build()
-                    .Run();
+builder.Host.UseSerilog();
+builder.Services.AddControllers();
+var app = builder.Build();
 
-                return 0;
-            }
-            catch (Exception e)
-            {
-                Log.Fatal(e, "Host terminated unexpectedly");
+app.MapControllers();
 
-                return 1;
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseSerilog()
-                .UseStartup<Startup>();
-    }
-}
+app.Run("http://+:5000");
