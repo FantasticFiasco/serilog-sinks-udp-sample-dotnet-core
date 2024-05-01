@@ -8,4 +8,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello world"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+      - run: dotnet build

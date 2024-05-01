@@ -1,6 +1,6 @@
 # Serilog.Sinks.Udp - Sample in .NET Core
 
-[![Build status](https://ci.appveyor.com/api/projects/status/p6khviimlpbmbkf8/branch/master?svg=true)](https://ci.appveyor.com/project/FantasticFiasco/serilog-sinks-udp-sample-dotnet-core/branch/master)
+[![CI](https://github.com/FantasticFiasco/serilog-sinks-udp-sample-dotnet-core/actions/workflows/ci.yml/badge.svg)](https://github.com/FantasticFiasco/serilog-sinks-udp-sample-dotnet-core/actions/workflows/ci.yml)
 
 This repository contains two sample applications of [Serilog.Sinks.Udp](https://github.com/FantasticFiasco/serilog-sinks-upd) producing log events sent using UDP to Log2Console.
 
